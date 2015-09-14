@@ -1,0 +1,36 @@
+#!/bin/sh
+
+function init() {
+    if [ ! -d PocketMine-MP ] ; then
+	git clone https://github.com/PocketMine/PocketMine-MP.git PocketMine-MP
+	(
+	    cd PocketMine-MP || exit 1
+	    git submodule init
+	    git submodule update
+	)
+    else
+	echo "PocketMine-MP already exists!"
+    fi
+}
+function pull() {
+    if [ ! -d PocketMine-MP ] ; then
+	echo "PocketMine-MP does not exist!"
+    else
+	(
+	    cd PocketMine-MP || exit 1
+	    git pull
+	    git submodule update
+	)
+    fi
+}
+
+if [ -z "$*" ] ; then
+  (
+    echo "Usage:"
+    echo " - init : initialize PocketMine-MP folder"
+    echo " - pull : pull pocketmine updates (including modules)"
+  ) 1>&2
+  exit 1
+fi
+
+"$@"
