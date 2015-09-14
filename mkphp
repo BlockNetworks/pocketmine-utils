@@ -1,0 +1,41 @@
+#!/bin/sh
+#
+# Make PHP Linux binaries
+#
+PHPv=5
+while [ $# -gt 0 ]
+do
+  case "$1" in
+    -7)
+      PHPv=7
+      shift
+      ;;
+    *)
+      break
+  esac
+done
+
+echo Setting up PHP $PHPv
+
+if [ ! -d php-build-scripts ] ; then
+  git clone https://github.com/PocketMine/php-build-scripts.git php-build-scripts
+fi
+if [ $PHPv -eq 7 ] ;then
+  ( cd php-build-scripts || exit 1; git checkout php7 )
+else
+  ( cd php-build-scripts || exit 1; git checkout master )
+fi
+
+OPTS=()
+# OPTS+=( -t "linux64" ) # Set compile target
+# OPTS+=( -j 4 ) # Threads
+OPTS+=( -r ) # Enable readline + ncurses
+# OPTS+=( -d ) # Enable profiler + xdebug
+OPTS+=( -c ) # Enable curl
+OPTS+=( -x ) # Cross compile
+OPTS+=( -l ) # LevelDB
+# OPTS+=( -s ) # Compile statically
+OPTS+=( -z ) # Compile Zephir's Pocketmine C PHP extension
+OPTS+=( -f ) # Compile aggresive optimizations
+
+echo exec ./php-build-scripts "${OPTS[@]}"
