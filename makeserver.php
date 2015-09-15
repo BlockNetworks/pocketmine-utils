@@ -12,11 +12,6 @@ if (ini_get('phar.readonly')) {
 define('CMD',array_shift($argv));
 error_reporting(E_ALL);
 
-$git="https://github.com/PocketMine/PreProcessor.git";
-if (!is_dir(dirname(__FILE__)."/PreProcessor")) {
-	exec_cmd(["git","clone",$git,dirname(__FILE__)."/PreProcessor"]);
-}
-
 function usage() {
 	die("Usage:\n\t".CMD." [-o outdir] <src_directory>\n");
 }
@@ -37,23 +32,11 @@ $srcdir = preg_replace('/\/*$/',"",$srcdir).'/';
 if (!is_dir($srcdir)) die("$srcdir: directory doesn't exist!\n");
 if (!is_dir($srcdir.'src')) die("$srcdir: Does not contain a src directory\n");
 
-if (is_executable($srcdir."maker")) {
-	$ignore["maker"] = "maker";
-	$done = system($srcdir."maker");
-	if ($done != "OK") exit(1);
+$git="https://github.com/PocketMine/PreProcessor.git";
+if (!is_dir(dirname(__FILE__)."/PreProcessor")) {
+	exec_cmd(["git","clone",$git,dirname(__FILE__)."/PreProcessor"]);
 }
-if (is_file($srcdir."ignore.txt")) {
-	$ignore["ignore.txt"] = "ignore.txt";
-	foreach (file($srcdir."ignore.txt") as $ln) {
-		$ln = trim(preg_replace('/^#.$/',"",$ln));
-		if ($ln === "") continue;
-		$ignore[$ln] = $ln;
-	}
-} else {
-	foreach([".gitignore"] as $i) {
-		$ignore[$i] = $i;
-	}
-}
+
 
 //////////////////////////////////////////////////////////////////////
 

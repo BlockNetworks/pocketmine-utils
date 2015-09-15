@@ -1,6 +1,6 @@
 #!/bin/sh
 scriptdir=$(cd $(dirname $(readlink -f $0)) && pwd)
-phpdir=$(dirname $scriptdir)/bin/php5/bin
+phpdir=$(dirname $scriptdir)/php/bin/php5/bin
 apigen_phar=$scriptdir/apigen.phar
 if [ ! -f $apigen_phar ] ; then
   echo "Missing APIGEN phar" 1>&2
