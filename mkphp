@@ -32,10 +32,10 @@ OPTS=()
 OPTS+=( -r ) # Enable readline + ncurses
 # OPTS+=( -d ) # Enable profiler + xdebug
 OPTS+=( -c ) # Enable curl
-OPTS+=( -x ) # Cross compile
+# OPTS+=( -x ) # Cross compile
 OPTS+=( -l ) # LevelDB
 # OPTS+=( -s ) # Compile statically
-OPTS+=( -z ) # Compile Zephir's Pocketmine C PHP extension
+# OPTS+=( -z ) # Compile Zephir's Pocketmine C PHP extension
 OPTS+=( -f ) # Compile aggresive optimizations
 
-echo exec ./php-build-scripts "${OPTS[@]}"
+exec ./php-build-scripts/compile.sh "${OPTS[@]}"

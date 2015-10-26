@@ -6,7 +6,4 @@ Misc scripts supporting pocketmine
   an rcon client
 * pmsrc - Set-up a PocketMine-MP source directory
 * mkphp - Set-up and call php build scripts
-
-TODO:
-
 * makeserver (with optimizations)

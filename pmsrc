@@ -1,16 +1,32 @@
 #!/bin/sh
 
 function init() {
-    if [ ! -d PocketMine-MP ] ; then
-	git clone https://github.com/PocketMine/PocketMine-MP.git PocketMine-MP
-	(
+  upstream="https://github.com/PocketMine/PocketMine-MP.git"
+  local url="$1" ; shift
+  if [ -z "$url" ] ; then
+    url="$upstream"
+  fi
+
+  if [ ! -d PocketMine-MP ] ; then
+    git clone "$url" PocketMine-MP
+    (
 	    cd PocketMine-MP || exit 1
 	    git submodule init
 	    git submodule update
-	)
-    else
-	echo "PocketMine-MP already exists!"
-    fi
+
+      if [ "$url" != "$upstream" ] ; then
+        # This is a fork!
+        git remote add upstream "$upstream"
+        git fetch upstream
+        echo 'Syncing with:'
+        echo '  git fetch upstream'
+        echo '  git checkout master'
+        echo '  git merge upstream/master'
+      fi
+    )
+  else
+    echo "PocketMine-MP already exists!"
+  fi
 }
 function pull() {
     if [ ! -d PocketMine-MP ] ; then
